@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ course.title }} - EduConnect
+{% endblock %}
+
+{% block content %}
+
+    <h1>{{ course.title }}</h1>
+
+    <p>{{ course.description }}</p>
+
+    <p>
+        Teacher:
+        {{ course.teacher.profile.full_name }}
+    </p>
+
+    <p>
+        Created:
+        {{ course.created_at|date:"d M Y, H:i" }}
+    </p>
+
+    {% if user == course.teacher %}
+        <p>
+            <a href="{% url 'course_students' course.pk %}">
+                View Enrolled Students
+            </a>
+        </p>
+        <p>
+            <a href="{% url 'upload_material' course.pk %}">
+                Upload Course Material
+            </a>
+        </p>
+    {% endif %}
+
+    {% if user.profile.role == 'student' %}
+
+        {% if is_enrolled %}
+            <p>
+                <strong>
+                    You are enrolled in this course.
+                </strong>
+            </p>
+            {% if has_feedback %}
+                <p>
+                    You have already submitted feedback for this course.
+                </p>
+            {% else %}
+                <p>
+                    <a href="{% url 'leave_feedback' course.pk %}">
+                        Leave Feedback
+                    </a>
+                </p>
+            {% endif %}
+        {% else %}
+        <form
+            method="post"
+            action="{% url 'enrol_course' course.pk %}"
+        >
+            {% csrf_token %}
+            <button type="submit">
+                Enrol on this course
+            </button>
+        </form>
+        {% endif %}
+
+    {% endif %}
+
+    <hr>
+
+    <h2>Course Materials</h2>
+
+    {% if user == course.teacher or is_enrolled %}
+
+        {% for material in course.materials.all %}
+            <div>
+                <h3>{{ material.title }}</h3>
+
+                <p>
+                    Uploaded:
+                    {{ material.uploaded_at|date:"d M Y, H:i" }}
+                </p>
+
+                <p>
+                    <a
+                        href="{{ material.file.url }}"
+                        target="_blank"
+                    >
+                        View / Download Material
+                    </a>
+                </p>
+            </div>
+
+            <hr>
+        {% empty %}
+            <p>No materials have been uploaded yet.</p>
+        {% endfor %}
+
+    {% else %}
+
+        <p>Enrol on this course to access the course materials.</p>
+
+    {% endif %}
+
+    <hr>
+
+    <h2>Course Feedback</h2>
+
+    {% for feedback in course.feedback.all %}
+
+        <div>
+            <h3>
+                {{ feedback.rating }}/5
+            </h3>
+
+            <p>
+                {{ feedback.comment }}
+            </p>
+
+            <p>
+                By {{ feedback.student.profile.full_name }}
+                on
+                {{ feedback.created_at|date:"d M Y, H:i" }}
+            </p>
+        </div>
+
+        <hr>
+
+    {% empty %}
+
+        <p>No feedback has been submitted yet.</p>
+
+    {% endfor %}
+
+    <p>
+        <a href="{% url 'course_list' %}">
+            Back to Courses
+        </a>
+    </p>
+
+{% endblock %}

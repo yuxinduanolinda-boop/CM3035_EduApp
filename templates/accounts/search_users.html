@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Search Users - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <h1 class="mb-4">Search Users</h1>
+
+        <div class="mb-4">
+            <label
+                for="user-search"
+                class="form-label"
+            >
+                Search users
+            </label>
+
+            <input
+                type="text"
+                id="user-search"
+                class="form-control"
+                placeholder="Search by username or name..."
+                autocomplete="off"
+            >
+        </div>
+
+        <div id="search-results"></div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/search_users.js' %}"></script>
+{% endblock %}

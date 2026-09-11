@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Enrolled Students - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Enrolled Students
+</h1>
+
+<p>
+    Course:
+    <strong>{{ course.title }}</strong>
+</p>
+
+<div class="row">
+
+    {% for enrollment in enrollments %}
+
+        <div class="col-md-6">
+            <div class="card mb-3">
+
+                <div class="card-body">
+
+                    <h2 class="h5">
+                        {{ enrollment.student.profile.full_name }}
+                    </h2>
+
+                    <p>
+                        Username:
+                        {{ enrollment.student.username }}
+                    </p>
+
+                    <p>
+                        Enrolled:
+                        {{ enrollment.enrolled_at|date:"d M Y, H:i" }}
+                    </p>
+
+                    <form
+                        method="post"
+                        action="{% url 'remove_student' course.pk enrollment.student.pk %}"
+                        class="d-inline"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-warning btn-sm"
+                        >
+                            Remove
+                        </button>
+                    </form>
+
+                    <form
+                        method="post"
+                        action="{% url 'block_student' course.pk enrollment.student.pk %}"
+                        class="d-inline"
+                    >
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            class="btn btn-danger btn-sm"
+                        >
+                            Block
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    {% empty %}
+
+        <p class="text-muted">
+            No students are enrolled in this course.
+        </p>
+
+    {% endfor %}
+
+</div>
+
+<a
+    href="{% url 'course_detail' course.pk %}"
+    class="btn btn-secondary"
+>
+    Back to Course
+</a>
+
+{% endblock %}

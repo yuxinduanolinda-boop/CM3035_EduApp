@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Teacher Home - EduConnect
+{% endblock %}
+
+{% block content %}
+
+    <h1>Teacher Home</h1>
+
+    <h2>Welcome, {{ user.profile.full_name }}</h2>
+
+    <p>This page will show your courses, students,
+       notifications and other teacher information.</p>
+
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Role: {{ user.profile.get_role_display }}</p>
+
+    <hr>
+
+    <p>
+        <a href="{% url 'course_list' %}">View Courses</a>
+    </p>
+
+    <p>
+        <a href="{% url 'course_create' %}">Create Course</a>
+    </p>
+
+    <p>
+    <a href="{% url 'notification_list' %}">
+        Notifications
+    </a>
+    </p>
+
+    <p>
+        <a href="{% url 'search_users' %}">
+            Search Users
+        </a>
+    </p>
+
+    <div class="mt-4">
+        <h2>API Documentation</h2>
+
+        <a
+            href="{% url 'api_schema' %}"
+            class="btn btn-outline-secondary me-2"
+        >
+            API Schema
+        </a>
+
+        <a
+            href="{% url 'swagger_ui' %}"
+            class="btn btn-outline-primary"
+        >
+            Swagger UI
+        </a>
+    </div>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+{% endblock %}

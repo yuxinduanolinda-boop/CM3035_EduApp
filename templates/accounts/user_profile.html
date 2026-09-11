@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ profile_user.profile.full_name }} - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h1 class="card-title">
+                    {{ profile_user.profile.full_name }}
+                </h1>
+
+                <p>
+                    <strong>Username:</strong>
+                    {{ profile_user.username }}
+                </p>
+
+                <p>
+                    <strong>Role:</strong>
+                    {{ profile_user.profile.get_role_display }}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    {{ profile_user.email }}
+                </p>
+
+                {% if profile_user.profile.bio %}
+                    <p>
+                        {{ profile_user.profile.bio }}
+                    </p>
+                {% endif %}
+
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+
+                <h2 class="h4">
+                    Status Updates
+                </h2>
+
+                {% for status in status_updates %}
+
+                    <div class="border rounded p-3 mb-3">
+                        <p class="mb-1 status-content">
+                            {{ status.content }}
+                        </p>
+
+                        <small class="text-muted">
+                            {{ status.created_at|date:"d M Y, H:i" }}
+                        </small>
+                    </div>
+
+                {% empty %}
+
+                    <p class="text-muted">
+                        No status updates yet.
+                    </p>
+
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

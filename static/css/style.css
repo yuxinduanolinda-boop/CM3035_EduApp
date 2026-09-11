@@ -1,0 +1,16 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.card {
+    margin-bottom: 1rem;
+}
+
+.status-content {
+    white-space: pre-wrap;
+}
+
+.chat-messages {
+    height: 400px;
+    overflow-y: auto;
+}

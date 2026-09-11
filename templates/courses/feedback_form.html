@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Leave Feedback - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="card">
+            <div class="card-body">
+
+                <h1 class="mb-4">
+                    Leave Feedback
+                </h1>
+
+                <p>
+                    Course:
+                    <strong>{{ course.title }}</strong>
+                </p>
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    {{ form.as_p }}
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Submit Feedback
+                    </button>
+
+                    <a
+                        href="{% url 'course_detail' course.pk %}"
+                        class="btn btn-secondary"
+                    >
+                        Cancel
+                    </a>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Student Home - EduConnect
+{% endblock %}
+
+{% block content %}
+
+    <h1>Student Home</h1>
+
+    <h2>Welcome, {{ user.profile.full_name }}</h2>
+
+    <p>This page will show your courses, status updates,
+       notifications and other student information.</p>
+
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Role: {{ user.profile.get_role_display }}</p>
+
+    <hr>
+
+    <h2>Post a Status Update</h2>
+
+    <form method="post" action="{% url 'create_status' %}">
+        {% csrf_token %}
+
+        <textarea
+            name="content"
+            rows="3"
+            placeholder="What are you thinking about?"
+            required
+        ></textarea>
+
+        <br>
+
+        <button type="submit">
+            Post Status
+        </button>
+    </form>
+    <hr>
+
+    <h2>Status Updates</h2>
+
+    {% for status in status_updates %}
+        <div>
+            <p>
+                <strong>
+                    {{ status.user.profile.full_name }}
+                </strong>
+            </p>
+
+            <p>
+                {{ status.content }}
+            </p>
+
+            <small>
+                {{ status.created_at|date:"d M Y, H:i" }}
+            </small>
+        </div>
+
+        <hr>
+
+    {% empty %}
+        <p>No status updates yet.</p>
+    {% endfor %}
+
+    <p>
+    <a href="{% url 'course_list' %}">View Courses</a>
+    </p>
+
+    <p>
+    <a href="{% url 'notification_list' %}">
+        Notifications
+    </a>
+    </p>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+
+{% endblock %}

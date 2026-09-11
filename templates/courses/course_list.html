@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Courses - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Courses</h1>
+
+    {% if user.profile.role == 'teacher' %}
+        <a
+            href="{% url 'course_create' %}"
+            class="btn btn-primary"
+        >
+            Create Course
+        </a>
+    {% endif %}
+</div>
+
+<div class="row">
+
+    {% for course in object_list %}
+
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100">
+                <div class="card-body">
+
+                    <h2 class="h5">
+                        {{ course.title }}
+                    </h2>
+
+                    <p class="card-text">
+                        {{ course.description|truncatewords:25 }}
+                    </p>
+
+                    <p class="text-muted">
+                        Teacher:
+                        {{ course.teacher.profile.full_name }}
+                    </p>
+
+                    <a
+                        href="{% url 'course_detail' course.pk %}"
+                        class="btn btn-outline-primary"
+                    >
+                        View Course
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+    {% empty %}
+
+        <div class="col-12">
+            <p class="text-muted">
+                No courses available.
+            </p>
+        </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

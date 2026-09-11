@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    EduConnect API Documentation
+{% endblock %}
+
+{% block content %}
+
+<div class="mb-3">
+    <h1>EduConnect API Documentation</h1>
+    <a
+        href="{% url 'home' %}"
+        class="btn btn-secondary"
+    >
+        Back to Home
+    </a>
+</div>
+
+<div id="swagger-ui"></div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/swagger-ui-dist@3/swagger-ui.css"
+>
+
+<script
+    src="https://unpkg.com/swagger-ui-dist@3/swagger-ui-bundle.js"
+></script>
+
+<script>
+    window.onload = function () {
+        SwaggerUIBundle({
+            url: "{% url 'api_schema' %}",
+            dom_id: '#swagger-ui',
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIBundle.SwaggerUIStandalonePreset
+            ],
+            layout: "BaseLayout",
+            requestInterceptor: function (request) {
+                request.headers['X-CSRFToken'] =
+                    "{{ csrf_token }}";
+
+                return request;
+            }
+        });
+    };
+</script>
+
+{% endblock %}

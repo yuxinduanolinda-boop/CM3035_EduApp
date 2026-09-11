@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Notifications - EduConnect
+{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <h1 class="mb-4">Notifications</h1>
+
+        {% for notification in object_list %}
+
+            <div class="card mb-3">
+                <div class="card-body">
+
+                    <p class="mb-1">
+                        {{ notification.message }}
+                    </p>
+
+                    <small class="text-muted">
+                        {{ notification.created_at|date:"d M Y, H:i" }}
+                    </small>
+
+                </div>
+            </div>
+
+        {% empty %}
+
+            <p class="text-muted">
+                You have no notifications.
+            </p>
+
+        {% endfor %}
+
+    </div>
+</div>
+
+{% endblock %}
