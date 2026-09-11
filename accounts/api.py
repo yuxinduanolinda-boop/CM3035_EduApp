@@ -15,7 +15,7 @@ from .serializers import UserSerializer
 @extend_schema(
     summary='Search users',
     description=(
-        'Search active EduConnect users by username, '
+        'Search active EduApp users by username, '
         'first name, last name, or profile full name. '
         'Only authenticated teachers can use this endpoint.'
     ),

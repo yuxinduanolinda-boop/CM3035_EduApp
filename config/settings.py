@@ -149,8 +149,12 @@ STATICFILES_DIRS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-
-    ...
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 STORAGES = {
     'default': {
@@ -215,9 +219,9 @@ REST_FRAMEWORK = {
     ),
 }
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'EduConnect API',
+    'TITLE': 'EduApp API',
     'DESCRIPTION': (
-        'REST API for the EduConnect eLearning application.'
+        'REST API for the EduApp eLearning application.'
     ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,

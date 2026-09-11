@@ -11,7 +11,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def connect(self):
         """Connect the user to the shared chat room."""
-        self.room_group_name = 'educonnect_chat'
+        self.room_group_name = 'EduApp_chat'
 
         if self.scope['user'].is_anonymous:
             await self.close()
